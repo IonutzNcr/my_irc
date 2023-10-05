@@ -1,0 +1,16 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html
+{
+    background-image: url(./assets/space.gif);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.chat-bubble
+{
+    background-color: #032f58bd;
+}
