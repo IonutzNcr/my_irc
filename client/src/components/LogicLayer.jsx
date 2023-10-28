@@ -15,7 +15,7 @@ export const LogicLayer = ({ name, event }) => {
         socket.emit("ask_rooms")
 
         socket.on("get_rooms", (recieved) => {
-            console.log("inside event get room", recieved)
+            //console.log("inside event get room", recieved)
             setAllRooms(recieved.map((room) => {
                 return room
             }))
@@ -25,17 +25,17 @@ export const LogicLayer = ({ name, event }) => {
 
     useEffect(() => {
         if (allRooms.length > 0) {
-            console.log("c'est bon normalement ")
+            //console.log("c'est bon normalement ")
             
             setCurrentRoom(allRooms[0]?.name)
         }
-        console.log("check if allRooms has isActive attribute", allRooms);
+        //console.log("check if allRooms has isActive attribute", allRooms);
         
     },[allRooms])
 
     useEffect(() => {
         if (currentRoom != undefined) {
-            console.log("i'm here", currentRoom)
+            //console.log("i'm here", currentRoom)
             socket.emit('join_room', { room: currentRoom, user: name })
         }
 
