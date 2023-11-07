@@ -1,52 +1,54 @@
-import React, { useEffect, useState } from 'react'
-import { socket } from "../connexion.jsx"
+//Not use anymore
 
-import { Chat } from './Chat.jsx';
-import { Rooms } from './Rooms.jsx';
+// import React, { useEffect, useState } from 'react'
+// import { socket } from "../connexion.jsx"
 
-//event is SetName
-export const LogicLayer = ({ name, event }) => {
-    const [allRooms, setAllRooms] = useState([]); // state pour recuperer tout les rooms depuis le server
-    const [myRooms, setMyRooms] = useState([]);
-    const [currentRoom, setCurrentRoom] = useState(null) // la salle qui est active 
+// import { Chat } from './Chat.jsx';
+// import { Rooms } from './Rooms.jsx';
 
-    useEffect(() => {
+// //event is SetName
+// export const LogicLayer = ({ name, event }) => {
+//     const [allRooms, setAllRooms] = useState([]); // state pour recuperer tout les rooms depuis le server
+//     const [myRooms, setMyRooms] = useState([]);
+//     const [currentRoom, setCurrentRoom] = useState(null) // la salle qui est active 
 
-        socket.emit("ask_rooms")
+//     useEffect(() => {
 
-        socket.on("get_rooms", (recieved) => {
-            //console.log("inside event get room", recieved)
-            setAllRooms(recieved.map((room) => {
-                return room
-            }))
+//         socket.emit("ask_rooms")
 
-        })
-    }, [])
+//         socket.on("get_rooms", (recieved) => {
+//             //console.log("inside event get room", recieved)
+//             setAllRooms(recieved.map((room) => {
+//                 return room
+//             }))
 
-    useEffect(() => {
-        if (allRooms.length > 0) {
-            //console.log("c'est bon normalement ")
+//         })
+//     }, [])
+
+//     useEffect(() => {
+//         if (allRooms.length > 0) {
+//             //console.log("c'est bon normalement ")
             
-            setCurrentRoom(allRooms[0]?.name)
-        }
-        //console.log("check if allRooms has isActive attribute", allRooms);
+//             setCurrentRoom(allRooms[0]?.name)
+//         }
+//         //console.log("check if allRooms has isActive attribute", allRooms);
         
-    },[allRooms])
+//     },[allRooms])
 
-    useEffect(() => {
-        if (currentRoom != undefined) {
-            //console.log("i'm here", currentRoom)
-            socket.emit('join_room', { room: currentRoom, user: name })
-        }
+//     useEffect(() => {
+//         if (currentRoom != undefined) {
+//             //console.log("i'm here", currentRoom)
+//             socket.emit('join_room', { room: currentRoom, user: name })
+//         }
 
-    }, [currentRoom])
+//     }, [currentRoom])
 
 
-    return (
-        <div>
-            <Chat username={name} event={event}  allRooms = {allRooms} currentRoom={currentRoom} updateRooms={updateRooms} />
-            {/* <Rooms /> */}
+//     return (
+//         <div>
+//             <Chat username={name} event={event}  allRooms = {allRooms} currentRoom={currentRoom} updateRooms={updateRooms} />
+//             {/* <Rooms /> */}
 
-        </div>
-    )
-}
+//         </div>
+//     )
+// }

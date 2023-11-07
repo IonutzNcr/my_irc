@@ -5,10 +5,10 @@ import { useEffect, useState } from 'react';
 
 
 
-export const AppLayout = ({socket, children}) => {
+export const AppLayout = ({socket, children, modal}) => {
 
     return (
-        <div>
+        <div className={`flex ${modal? 'blur-[2px]':''}`}>
             {children}
         </div>
     )
