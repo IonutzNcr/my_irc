@@ -26,11 +26,11 @@ export default function ConnexionLayout({ setIsConnected, socket, name, setName,
         setName(document.querySelector("#name_input").value);
         setIsConnected(true);
         //console.log(socket.id)
-        // socket.emit("con", {
-        //     name: document.querySelector("#name_input").value,
-        //     id: socket.id,
-        //     inRoom: inRoom
-        // });
+        socket.emit("con", {
+            name: document.querySelector("#name_input").value,
+            id: socket.id,
+            inRoom: inRoom
+        });
     }
 
 
@@ -39,10 +39,7 @@ export default function ConnexionLayout({ setIsConnected, socket, name, setName,
 
 
         return (
-            // <form onSubmit={connect} >
-            //     Name
-            //     <input type="text" placeholder='name' />
-            // </form >
+           
             <div className="w-[100vw] h-[100vh] bg-white">
                 <img className='absolute bottom-0' src={t1} alt="triangle" />
                 <img className="absolute top-0 right-0" src={t2} alt="" />

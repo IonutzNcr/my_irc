@@ -11,15 +11,15 @@ export const Chat = ({ socket, author, inRoom }) => {
     const [messages, setMessages] = useState([]);
 
 
-    useEffect(()=>{
-        console.log("*********************")
-        socket.emit("join",{name:inRoom, user:author}, (data)=>{
-            console.log("data", data)
-        }
-        )
+    // useEffect(()=>{
+    //     console.log("*********************")
+    //     socket.emit("join" ,{name:inRoom, user:author}, (data)=>{
+    //         console.log("data", data)
+    //     }
+    //     )
         
-    },[inRoom])
-
+    // },[inRoom])
+    console.log("***ouside here inRoom", inRoom)
 
     useEffect(() => {
        
@@ -44,9 +44,11 @@ export const Chat = ({ socket, author, inRoom }) => {
            
         })
         
-      
+      return ()=>{
+            socket.off("messages")
+        }
 
-    }, [])
+    }, [inRoom])
 
 
 

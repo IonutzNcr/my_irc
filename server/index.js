@@ -39,17 +39,19 @@ const io = new Server(server, {
 io.on('connection', (socket) => {
     // //console.log(`Here comes a new Challenger!`, socket.client.id);
 
-    // socket.on("con", (data) => {
-    //     console.log("************** CON **************");
-    //     let room = rooms.filter(room => room.name === data.inRoom);
-    //     room[0].users.push(data)
-    //     socket.join(data.inRoom)
-    //     //console.log("users: ", rooms[0].users)
-    //     io.to(data.inRoom).emit("con", data.name + " just connected");
-    //     io.to(data.inRoom).emit("users", room[0].users);
-    //     io.to(data.inRoom).emit("rooms", rooms)
-    //     io.to(data.inRoom).emit("messages", room[0].messages)
-    // })
+    socket.on("con", (data) => {
+        console.log("************** CON **************");
+        let room = rooms.filter(room => room.name === data.inRoom);
+        room[0].users.push(data)
+        socket.leave(data.inRoom)
+        socket.join(data.inRoom)
+        //console.log("users: ", rooms[0].users)
+        io.to(data.inRoom).emit("con", data.name + " just connected");
+        io.to(data.inRoom).emit("users", room[0].users);
+        //FIXME: I think this one is the problem
+        io.to(data.inRoom).emit("rooms", [rooms[0]])
+        io.to(data.inRoom).emit("messages", room[0].messages)
+    })
 
         //FIXME: debugging
     socket.on("message", (message, cb) => {
@@ -86,41 +88,65 @@ io.on('connection', (socket) => {
         // console.log("I have this many", rooms)
         //rejoindre le channel créer
         let r = rooms.filter(r => r.name === room.name)
+        socket.leave(room.name)
         socket.join(room.name)
         socket.emit("joined", room.name) // send the room name to the client for it to know in wich room it is
         console.log("***messages envoyé vers le front ", r[0].messages)
         socket.emit("messages", r[0].messages)
         socket.emit("users", r[0].users)
         //FIXME: can be filtered to only send rooms in wich he is 
-        socket.emit("rooms", rooms)
+        let filteredRoomsByUser = rooms.filter(r=>{
+            for(let key in r.users){
+                if(r.users[key].name === room.admin){
+                    return r
+                }
+            }
+        })
+        console.log("******** CREATEANDJOIN ********");
+        console.log("*******filteredRoomsByUser", filteredRoomsByUser)
+        socket.emit("rooms", filteredRoomsByUser)
         cb({})
     })
 
+    //FIXME: big problems here
     socket.on("join", (room, cb) => {
         console.log("************** JOIN **************");
         //check if room exist
         console.log("room is in socket join ", room)
         let filteredRoom = rooms.filter(r => r.name === room.name)
-        console.log("filteredRoom", filteredRoom)
+        console.log("****filteredRoom", filteredRoom)
         if (filteredRoom.length === 1) {
             let userIn = false;
-            for(let key in filteredRoom.users){
-                if(filteredRoom.users[key] === room.user){
+            for(let key in filteredRoom[0].users){
+                console.log("******* JOIN")
+                // console.log("filteredRoom.users[key].name", filteredRoom.users[key].name)
+                if(filteredRoom[0].users[key].name === room.user){
                     console.log("user is in room")
                     userIn = true;
                 }
             }
+            console.log("*****JOIN");
+            console.log("*****userIn", userIn)
             if(!userIn){
                 filteredRoom[0].users.push({ name: room.user, id: socket.id, inRoom: room.name })
             }
-           console.log("inside joined stuff", filteredRoom[0])
+           console.log("***inside joined stuff", filteredRoom[0])
             socket.join(room.name);
-            socket.emit("joined", room.name, room.admin);
+            socket.emit("joined", room.name, room.user);
             console.log("***messages envoyé vers le front ", filteredRoom[0].messages)
             socket.emit("messages", filteredRoom[0].messages)
             socket.emit("users", filteredRoom[0].users)
             //FIXME: can be filtered to only send rooms in wich he is 
-            socket.emit("rooms", rooms)
+            let filteredRoomsByUser = rooms.filter(r=>{
+                for(let key in r.users){
+                    if(r.users[key].name === room.user){
+                        return r
+                    }
+                }
+            })
+            console.log("******** JOIN ********");
+            console.log("*******filteredRoomsByUser", filteredRoomsByUser)
+            socket.emit("rooms", filteredRoomsByUser)
             cb("joined successfully")
         }
 

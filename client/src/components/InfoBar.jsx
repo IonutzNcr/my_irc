@@ -59,7 +59,7 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 {rooms.map((r, index) => {
                     // console.log("yooo room", r.name, room)
                     if (r.name === room) {
-                        return <RoomTemplate key={index} room={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        return <RoomTemplate author = {author} socket={socket} key={index} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
                     }
                 }
                 )}
@@ -69,7 +69,7 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 {rooms.map((r, index) => {
                     // console.log("yooo room2", r.name, room)
                     if (r.name !== room) {
-                        return <RoomTemplate key={index} room={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        return <RoomTemplate key={index} author = {author} socket={socket}  name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
                     }
                 }
                 )}
