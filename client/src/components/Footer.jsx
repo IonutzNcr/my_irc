@@ -18,6 +18,7 @@ export const Footer = ( {socket, author, inRoom}) => {
             inRoom: inRoom
         }, (cb) => {
             console.log(`Message send in room: ${inRoom} || ${cb}`)
+            messageRef.current.value = "";
         })
     }
 
