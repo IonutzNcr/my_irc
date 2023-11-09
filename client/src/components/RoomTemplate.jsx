@@ -2,20 +2,19 @@ import svg1 from '../assets/messagee.svg'
 
 import React from 'react'
 
-export const RoomTemplate = ({socket ,name, setInRoom, inRoom, author}) => {
+export const RoomTemplate = ({ socket, name, setInRoom, inRoom, author }) => {
 
 
     //FIXME: potentiall problem 
-    function psuedoJoin(){
-        if(inRoom !== name){
-            socket.emit("join" ,{name, user:author}, (data)=>{
+    async function psuedoJoin() {
+        if (inRoom !== name) {
+            await socket.emit("join", { name, user: author }, (data) => {
                 console.log("data", data)
                 setInRoom(name);
+                socket.off("join")
             }
             )
-            
         }
-        
     }
 
     return (
@@ -23,7 +22,7 @@ export const RoomTemplate = ({socket ,name, setInRoom, inRoom, author}) => {
             <div className='pl-4 flex justify-start w-[70%] font-patua'> {name}</div>
             <div className='w-[2px] h-[80%] border border-blue-300 ml-auto'></div>
             <div className="pr-4 flex flex-row  gap-2 justify-center w-[20%] ml-auto">
-                
+
                 <img src={svg1} alt="triangle" />
             </div>
         </div>

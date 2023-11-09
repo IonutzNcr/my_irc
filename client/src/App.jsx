@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 // import { LogicLayer } from './components/LogicLayer.jsx';
 import ConnexionLayout from './components/ConnexionLayout.jsx';
 import { AppLayout } from './components/AppLayout.jsx';
-import Friends from './components/Friends.jsx';
+// import Friends from './components/Friends.jsx';
 // import Rooms from './components/Rooms.jsx'
 import io from 'socket.io-client';
 import { Chat } from './components/Chat.jsx';
@@ -35,10 +35,12 @@ const App = () => {
       setInRoom(room)
       setAdmin(admin)
     })
-    return ()=>{
+    return () => {
       socket.off("joined")
     }
-  },[])
+  }, [])
+
+ 
 
   return (
     <>
@@ -52,16 +54,16 @@ const App = () => {
       />
       {isConnected &&
         <AppLayout modal={modal}>
-          <SideBar activeTab={ activeTab } setActiveTab = { setActiveTab } />
-          <InfoBar socket= {socket} activeTab = { activeTab } author = { name } room = {inRoom} inRoom={inRoom} setInRoom={setInRoom} modal={modal} setModal={setModal} />
-          
+          <SideBar setInRoom={setInRoom} setIsConnected={setIsConnected} setName={setName} socket={socket} activeTab={activeTab} setActiveTab={setActiveTab} />
+          <InfoBar socket={socket} activeTab={activeTab} author={name} room={inRoom} inRoom={inRoom} setInRoom={setInRoom} modal={modal} setModal={setModal} />
+
           <ChatLayout >
-            <Header />
+            <Header socket={socket} author = {name} setInRoom={setInRoom} inRoom={inRoom} />
             <Chat socket={socket} author={name} inRoom={inRoom} />
             <Footer socket={socket} author={name} inRoom={inRoom} />
           </ChatLayout>
         </AppLayout>}
-        {modal && <Modal socket={socket} user={name} setModal={setModal} setInRoom={setInRoom} /> }
+      {modal && <Modal socket={socket} user={name} setModal={setModal} setInRoom={setInRoom} />}
 
     </>
 

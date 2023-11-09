@@ -16,6 +16,10 @@ export const Modal = ({ socket, user, setModal, setInRoom }) => {
             setSearchRooms([...data]);
         }
         )
+
+        return () => {
+            socket.off("searchRooms")
+        }
     }, [sendSearch])
 
     const filterRooms = searchRooms.filter((room) => {
@@ -48,11 +52,24 @@ export const Modal = ({ socket, user, setModal, setInRoom }) => {
         }
 
         )
+        socket.off("createAndJoin")
     }
 
     function search(e){
         e.preventDefault()
         setSendSearch(!sendSearch);
+    }
+
+    async function join(inRoom) {
+        
+            await socket.emit("join", { name: inRoom, user: user }, (data) => {
+                // console.log("data", data)
+                setInRoom(inRoom);
+                setModal(false);
+                socket.off("join")
+            }
+            )
+        
     }
 
     return (
@@ -78,7 +95,7 @@ export const Modal = ({ socket, user, setModal, setInRoom }) => {
                     return (
                         <div className='w-[400px] h-[50px] '>
                             <p>{room.name}</p>
-                            <button>Rejoindre</button>
+                            <button onClick = {()=> join(room.name)}>Rejoindre</button>
                         </div>
                     )
                 })

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { DividerMe } from './DividerMe';
 import { CJButton } from './CJButton';
@@ -11,9 +11,66 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
     const [users, setUsers] = useState([]);
     const [rooms, setRooms] = useState([]);
 
-    socket.on("users", (data) => {
-        setUsers([...data]);
-    });
+    useEffect(() => {
+        socket.on("update", (data) => {
+            console.log("*************update", data)
+            //data is rooms, users* impossible this one cause i dont know which room it is in 
+            let myRoomWasDeleted = false;
+            for (let key in data.roomsToDelete) {
+                console.log("***update inside for", data.roomsToDelete[key].name, inRoom)
+                if (data.roomsToDelete[key].name === inRoom) {
+                    myRoomWasDeleted = true;
+
+                }
+            }
+            if (myRoomWasDeleted) {
+                console.log("*************update inside myRoomWasDeleted = true", [...data.rooms[0].users])
+                setInRoom("default");
+                setUsers([...data.rooms[0].users])
+            } else {
+                //FIXME: find another way to set up the users
+                for(let key in data.rooms){
+                    if(data.rooms[key].name === inRoom){
+                        setUsers([...data.rooms[key].users])
+                    }
+                }
+                
+            }
+            //filtrer les rooms dans lequel l'user est
+            let rs = data.rooms.filter((r) => {
+                for (let key in r.users) {
+                    if (r.users[key].name === author) {
+                        return r;
+                    }
+                }
+            }
+            )
+
+            console.log("*************update inside rs", rs)
+            setRooms([...rs]);
+
+        })
+        return () => {
+            socket.off("update")
+        }
+    }, [inRoom])
+
+    useEffect(() => {
+        socket.on("users", (data) => {
+            console.log("***** INFOBAR ****")
+            console.log("in infobar inRoom", inRoom, room)
+            console.log("in infobar data", data)
+            if (data[0].inRoom === inRoom) {
+                console.log("**inside info bar if", data)
+                setUsers([...data]);
+            }
+
+        });
+
+        return () => {
+            socket.off("users")
+        }
+    }, [inRoom])
     //FIXME: second only sending rooms in which the users is
     socket.on("rooms", (data) => {
         setRooms(data);
@@ -28,7 +85,7 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 <DividerMe who='moi' />
 
                 {users.map((user, index) => {
-                    // console.log("yooo", user.name, author)
+                    console.log("yooo", user)
                     if (user.name === author) {
                         return <UserTemplate key={index} name={user.name} role={"hmm"} />
                     }
@@ -59,7 +116,7 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 {rooms.map((r, index) => {
                     // console.log("yooo room", r.name, room)
                     if (r.name === room) {
-                        return <RoomTemplate author = {author} socket={socket} key={index} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        return <RoomTemplate author={author} socket={socket} key={index} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
                     }
                 }
                 )}
@@ -69,7 +126,7 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 {rooms.map((r, index) => {
                     // console.log("yooo room2", r.name, room)
                     if (r.name !== room) {
-                        return <RoomTemplate key={index} author = {author} socket={socket}  name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        return <RoomTemplate key={index} author={author} socket={socket} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
                     }
                 }
                 )}

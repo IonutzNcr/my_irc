@@ -9,14 +9,7 @@ export default function ConnexionLayout({ setIsConnected, socket, name, setName,
 
 
 
-    //sert a se deconnecter 
-    const disconect = () => {
-        socket.emit("disconnected", name);
-        // socket.disconnect();
-        setName("");
-        setIsConnected(false);
-
-    }
+    
 
     //sert a se connecter
     const connect = (e) => {
@@ -63,13 +56,7 @@ export default function ConnexionLayout({ setIsConnected, socket, name, setName,
 
     }
 
-    //coposant pour se deconnecter
-    const Deconnexion = () => {
-        return (
-            <button onClick={disconect}>Deconnexion</button>
-        )
-    }
-
+   
     return (
         <div className={`w-[100vw] h-[100vh] ${ name ? 'hidden':''}`}>
             {/* {name && <Deconnexion />} */}
