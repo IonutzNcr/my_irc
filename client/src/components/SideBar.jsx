@@ -28,9 +28,9 @@ export const SideBar = ({setInRoom,setIsConnected,setName,socket, activeTab, set
                 </div>
             </div>
 
-            <div className="mt-[auto] w-[145px] h-11 relative shadow-lg">
-                <div className="w-[145px] h-11 left-0 top-0 absolute bg-rose-600 rounded-[10px]  border border-indigo-600" />
-                <div onClick={disconect} className="left-[26px] top-[14px] absolute text-white text-sm font-normal font-patua">Se deconnecter</div>
+            <div className="  mt-[auto] w-[145px] h-11 relative shadow-lg">
+                <div className="hover:bg-red-600 w-[145px] h-11 left-0 top-0 absolute bg-rose-600 rounded-[10px]  border border-indigo-600" />
+                <div onClick={disconect} className="hover:bg-red-600 left-[26px] top-[14px] absolute text-white text-sm font-normal font-patua">Se deconnecter</div>
             </div>
 
         </div>

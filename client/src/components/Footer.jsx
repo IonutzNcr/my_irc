@@ -27,7 +27,7 @@ export const Footer = ( {socket, author, inRoom}) => {
   return (
     <form onSubmit={send} className='relative w-full h-[50px] bg-red-800 flex flex-row border-l border-t border-blue-600'>
         <input ref={messageRef} className='pl-24 bg-indigo-100 w-[90%] focus:border-none focus:outline-none font-pompiere'/>
-        <button type='submit' className='flex items-center justify-center box-border h-full w-[10%] bg-indigo-600 text-white text-[18px] hover:bg-indigo-500 font-patua '>Envoyer</button>
+        <button type='submit' className='cursor-mine flex items-center justify-center box-border h-full w-[10%] bg-indigo-600 text-white text-[18px] hover:bg-indigo-500 font-patua '>Envoyer</button>
     </form>
   )
 }

@@ -10,6 +10,9 @@ export default {
         'patua': ['Patua One', 'sans-serif'],
         'pompiere' : ['Pompiere', 'sans-serif'],
       },
+      cursor :{
+        mine :  'url(http://www.rw-designer.com/cursor-extern.php?id=82671)'
+      }
     },
   },
   plugins: [require("daisyui")],

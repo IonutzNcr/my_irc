@@ -5,7 +5,7 @@ import { CJButton } from './CJButton';
 import { UserTemplate } from './UserTemplate';
 import { RoomTemplate } from './RoomTemplate';
 
-export default function InfoBar({ socket, activeTab, setActiveTab, author, room, setModal, modal, setInRoom, inRoom }) {
+export default function InfoBar({ admin, socket, activeTab, setActiveTab, author, room, setModal, modal, setInRoom, inRoom }) {
 
 
     const [users, setUsers] = useState([]);
@@ -29,12 +29,12 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
                 setUsers([...data.rooms[0].users])
             } else {
                 //FIXME: find another way to set up the users
-                for(let key in data.rooms){
-                    if(data.rooms[key].name === inRoom){
+                for (let key in data.rooms) {
+                    if (data.rooms[key].name === inRoom) {
                         setUsers([...data.rooms[key].users])
                     }
                 }
-                
+
             }
             //filtrer les rooms dans lequel l'user est
             let rs = data.rooms.filter((r) => {
@@ -82,24 +82,26 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
 
                 <CJButton setModal={setModal} modal={modal} />
 
-                <DividerMe who='moi' />
-
-                {users.map((user, index) => {
-                    console.log("yooo", user)
-                    if (user.name === author) {
-                        return <UserTemplate key={index} name={user.name} role={"hmm"} />
+                <div className='flex flex-col gap-[5px] mt-[20px]'>
+                    <DividerMe who='moi' />
+                    {users.map((user, index) => {
+                        console.log("yooo", user)
+                        if (user.name === author) {
+                            return <UserTemplate key={index} name={user.name} admin={admin} />
+                        }
                     }
-                }
-                )}
+                    )}
+                </div>
 
-                <DividerMe who='autres' />
-
-                {users.map((user, index) => {
-                    if (user.name !== author) {
-                        return <UserTemplate key={index} name={user.name} role={"hmm"} />
+                <div className='flex flex-col gap-[5px] mt-[40px] overflow-y-auto'>
+                    <DividerMe who='autres' />
+                    {users.map((user, index) => {
+                        if (user.name !== author) {
+                            return <UserTemplate key={index} name={user.name} admin={admin} />
+                        }
                     }
-                }
-                )}
+                    )}
+                </div>
 
             </div>
         )
@@ -111,26 +113,29 @@ export default function InfoBar({ socket, activeTab, setActiveTab, author, room,
 
                 <CJButton setModal={setModal} modal={modal} />
 
-                <DividerMe who='in room' />
+                <div className='flex flex-col gap-[5px] mt-[40px] overflow-y-auto'>
+                    <DividerMe who='in room' />
 
-                {rooms.map((r, index) => {
-                    // console.log("yooo room", r.name, room)
-                    if (r.name === room) {
-                        return <RoomTemplate author={author} socket={socket} key={index} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                    {rooms.map((r, index) => {
+                        // console.log("yooo room", r.name, room)
+                        if (r.name === room) {
+                            return <RoomTemplate author={author} socket={socket} key={index} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        }
                     }
-                }
-                )}
+                    )}
+                </div>
 
-                <DividerMe who='others rooms' />
+                <div className='flex flex-col gap-[5px] mt-[40px] overflow-y-auto'>
+                    <DividerMe who='others rooms' />
 
-                {rooms.map((r, index) => {
-                    // console.log("yooo room2", r.name, room)
-                    if (r.name !== room) {
-                        return <RoomTemplate key={index} author={author} socket={socket} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                    {rooms.map((r, index) => {
+                        // console.log("yooo room2", r.name, room)
+                        if (r.name !== room) {
+                            return <RoomTemplate key={index} author={author} socket={socket} name={r.name} setInRoom={setInRoom} inRoom={inRoom} />
+                        }
                     }
-                }
-                )}
-
+                    )}
+                </div>
 
             </div>
         )

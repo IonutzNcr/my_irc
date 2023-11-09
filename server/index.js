@@ -48,6 +48,9 @@ io.on('connection', (socket) => {
         //console.log("users: ", rooms[0].users)
         io.to(data.inRoom).emit("con", data.name + " just connected");
         io.to(data.inRoom).emit("users", room[0].users);
+        //FIXME: Hope is doing great
+        console.log("*****CON rooom", room[0].admin)
+        socket.emit("joined", data.inRoom, room[0].admin)
         //FIXME: Fixed for now 
 
 
@@ -92,7 +95,7 @@ io.on('connection', (socket) => {
         let r = rooms.filter(r => r.name === room.name)
         socket.leave(room.name)
         socket.join(room.name)
-        socket.emit("joined", room.name) // send the room name to the client for it to know in wich room it is
+        socket.emit("joined", room.name, room.admin) // send the room name to the client for it to know in wich room it is
         console.log("***messages envoyé vers le front ", r[0].messages)
         socket.emit("messages", r[0].messages)
         socket.emit("users", r[0].users)
@@ -135,7 +138,9 @@ io.on('connection', (socket) => {
             }
             console.log("***inside joined stuff", filteredRoom[0])
             socket.join(room.name);
-            socket.emit("joined", room.name, room.user);
+            //FIXME: problem here
+            console.log("****join room.user", room.user);
+            socket.emit("joined", room.name, filteredRoom[0].admin) // send the room name to the client for it to know in wich room it is);
             console.log("***messages envoyé vers le front ", filteredRoom[0].messages)
 
             io.to(room.name).emit("users", filteredRoom[0].users)

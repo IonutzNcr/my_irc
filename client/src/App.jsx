@@ -25,13 +25,13 @@ const App = () => {
   const [name, setName] = useState("");
   //direction vers la room par default
   const [inRoom, setInRoom] = useState("default");
-  const [admin, setAdmin] = useState(false);
+  const [admin, setAdmin] = useState("admin");
 
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
     socket.on("joined", (room, admin) => {
-      console.log("joined inside joined", room)
+      console.log("joined inside joined", room, admin)
       setInRoom(room)
       setAdmin(admin)
     })
@@ -55,7 +55,7 @@ const App = () => {
       {isConnected &&
         <AppLayout modal={modal}>
           <SideBar setInRoom={setInRoom} setIsConnected={setIsConnected} setName={setName} socket={socket} activeTab={activeTab} setActiveTab={setActiveTab} />
-          <InfoBar socket={socket} activeTab={activeTab} author={name} room={inRoom} inRoom={inRoom} setInRoom={setInRoom} modal={modal} setModal={setModal} />
+          <InfoBar admin={admin} socket={socket} activeTab={activeTab} author={name} room={inRoom} inRoom={inRoom} setInRoom={setInRoom} modal={modal} setModal={setModal} />
 
           <ChatLayout >
             <Header socket={socket} author = {name} setInRoom={setInRoom} inRoom={inRoom} />
