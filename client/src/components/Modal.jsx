@@ -83,13 +83,13 @@ export const Modal = ({ socket, user, setModal, setInRoom }) => {
                 <form onSubmit={createRoom} className='flex justify-between w-[400px] flex-wrap'>
                     <p className={`${error ? '' : 'hidden'} text-red-400  w-[400px] h-[30px] p-2`}> {error} </p>
                     <input ref={roomTerm} className='bg-blue-200 w-[400px] h-[50px] p-2' placeholder="rooom...." type="text" />
-                    <button type='submit' className='hover:bg-green-400 mt-[15px] rounded-[10px] w-[40%] h-[50px] bg-green-500 text-white font-patua'>Créer</button>
-                    <button onClick={cancel} className='hover:bg-red-500 mt-[15px] rounded-[10px] w-[40%] h-[50px] bg-red-600 text-white font-patua' >Annuler</button>
+                    <button type='submit' className='hover:bg-green-400 cursor-mine mt-[15px] rounded-[10px] w-[40%] h-[50px] bg-green-500 text-white font-patua'>Créer</button>
+                    <button onClick={cancel} className='hover:bg-red-500  cursor-mine mt-[15px] rounded-[10px] w-[40%] h-[50px] bg-red-600 text-white font-patua' >Annuler</button>
                 </form>
                 <p className='font-patua text-[25px] self-start' >Chercher un salon</p>
                 <form onSubmit={search} className='flex flex-row w-[400px]'>
                     <input ref={searchTerm} className='bg-blue-200 w-[70%] h-[50px] p-2' placeholder="rooom...." type="text" />
-                    <button className=' w-[40%] h-[50px] bg-blue-500 text-white font-patua'>Chercher</button>
+                    <button className='cursor-mine w-[40%] h-[50px] bg-blue-500 text-white font-patua'>Chercher</button>
                 </form>
                 <div className='flex flex-col gap-[10px] '>
                     {filterRooms.map((room, index) => {
@@ -100,7 +100,7 @@ export const Modal = ({ socket, user, setModal, setInRoom }) => {
                             <div key={index} className=' w-[400px] h-[50px] flex flex-row border-[2px] rounded-[10px] border-blue-400 font-patua items-center justify-between'>
                                 <p className='p-[10px]'>{room.name}</p>
                                 <div className='h-[80%] w-[2px] bg-blue-300 ml-auto '> </div>
-                                <button className='p-[10px] text-[12px] text-blue-600 hover:bg-blue-100 h-full' onClick={() => join(room.name)}>Rejoindre</button>
+                                <button className='cursor-mine p-[10px] text-[12px] text-blue-600 hover:bg-blue-100 h-full' onClick={() => join(room.name)}>Rejoindre</button>
                             </div>
                         )
                     })

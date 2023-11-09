@@ -16,7 +16,7 @@ export const SideBar = ({setInRoom,setIsConnected,setName,socket, activeTab, set
 
     return (
         <div className='flex flex-col items-center gap-[100px] pt-[200px] pb-[30px] h-[100vh] w-[177px] bg-[#5566F8]'>
-            <div onClick = {()=>{setActiveTab("users")}} className={`w-[60px] h-[60px] px-[16.07px] pt-[13.93px] pb-[15px] bg-gray-200 rounded-[66px] ${activeTab ==="users"? "border-4 border-[#4CFF2F]": ""} justify-center items-center inline-flex`}>
+            <div onClick = {()=>{setActiveTab("users")}} className={`w-[60px] h-[60px] px-[16.07px] pt-[13.93px] pb-[15px] bg-gray-200 rounded-[66px] ${activeTab ==="users"? "border-4 border-[#4CFF2F]": "hover:border-[#4CFF2F] hover:border-4 hover:bg-gray-100"} justify-center items-center inline-flex`}>
                 <div className="w-[27.86px] h-[31.07px] flex justify-center items-center relative" >
                     <img className='' src={svg1} alt="icone" />
                 </div>

@@ -11,7 +11,7 @@ export default {
         'pompiere' : ['Pompiere', 'sans-serif'],
       },
       cursor :{
-        mine :  'url(http://www.rw-designer.com/cursor-extern.php?id=82671)'
+        mine :  'url(./src/assets/trinity.cur), auto'
       }
     },
   },
