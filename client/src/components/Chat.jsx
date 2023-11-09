@@ -9,6 +9,7 @@ export const Chat = ({ socket, author, inRoom }) => {
 
 
     const [messages, setMessages] = useState([]);
+    const chatRef = useRef(null);
 
 
     useEffect(()=>{
@@ -51,13 +52,16 @@ export const Chat = ({ socket, author, inRoom }) => {
 
     }, [inRoom])
 
+    useEffect(() => {
+        chatRef.current.scrollIntoView();
+    },[messages])
 
 
 
 
     return (
 
-        <div className='flex bg-gray-200 overflow-x-auto p-5 flex-col items-center gap-[10px] border-l border-blue-600' style={{ height: 'calc(100vh - 50px - 66.5px)' }}>
+        <div  className='flex bg-gray-200 overflow-x-auto p-5 flex-col items-center gap-[10px] border-l border-blue-600' style={{ height: 'calc(100vh - 50px - 66.5px)' }}>
             {messages.map((message, index) => {
                 // console.log(message)
                 if (message.auth === author) {
@@ -71,6 +75,9 @@ export const Chat = ({ socket, author, inRoom }) => {
                 }
             }
             )}
+            <div ref={chatRef}>
+
+            </div>
 
         </div>
     )
