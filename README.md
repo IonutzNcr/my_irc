@@ -4,10 +4,17 @@ un chat en ligne
 Installation: 
 npm i 
 
-Run Server:/n
- cd server /n
- node index.js/n
+Run Server:
 
-Run Client:/n
- cd client/n
- npm run dev/n
+ cd server 
+ 
+ node index.js
+ 
+
+Run Client:
+
+ cd client
+ 
+ npm run dev
+
+
